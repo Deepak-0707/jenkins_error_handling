@@ -20,12 +20,14 @@ pipeline {
 
         stage('Unstable Push With Retry') {
             steps {
-                retry(3) {
-                    script {
-                        echo "Attempting risky operation..."
-                        sh "exit 1"
+                script {
+                    if (env.BUILD_NUMBER.toInteger() % 2 == 0) {
+                        sh "exit 0"
+                    } else {
+                    sh "exit 1"
                     }
                 }
+
             }
         }
 
